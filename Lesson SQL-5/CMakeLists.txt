@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.20)
+project(SQL-5)
+set (PostgreSQL_ADDITIONAL_VERSIONS "15")
+add_executable(SQL-5 main.cpp)
+add_subdirectory("C:/Users/123/Desktop/CPP - SQL/Lesson SQL-5/libpqxx-7.7.5" libpqxx-build) 
+target_compile_features(SQL-5 PRIVATE cxx_std_17) 
+target_link_libraries(SQL-5 pqxx) 

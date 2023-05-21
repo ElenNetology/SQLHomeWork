@@ -1,22 +1,22 @@
-INSERT INTO list_of_performers (Name_performer)
+INSERT INTO list_of_performers (name_performer)
 VALUES('Michelle Hale');
-INSERT INTO list_of_performers (Name_performer)
+INSERT INTO list_of_performers (name_performer)
 VALUES('Jennifer Underhill');
-INSERT INTO list_of_performers (Name_performer)
+INSERT INTO list_of_performers (name_performer)
 VALUES('Barry Gordon');
-INSERT INTO list_of_performers (Name_performer)
+INSERT INTO list_of_performers (name_performer)
 VALUES('Megan Higgs');
-INSERT INTO list_of_performers (Name_performer)
+INSERT INTO list_of_performers (name_performer)
 VALUES('Luke Boyle');
-INSERT INTO list_of_performers (Name_performer)
+INSERT INTO list_of_performers (name_performer)
 VALUES('Nicholas Mcneill');
-INSERT INTO list_of_performers (Name_performer)
+INSERT INTO list_of_performers (name_performer)
 VALUES('Caitlyn');
-INSERT INTO list_of_performers (Name_performer)
+INSERT INTO list_of_performers (name_performer)
 VALUES('Kieth Palmer');
-INSERT INTO list_of_performers (Name_performer)
+INSERT INTO list_of_performers (name_performer)
 VALUES('Amelia');
-INSERT INTO list_of_performers (Name_performer)
+INSERT INTO list_of_performers (name_performer)
 VALUES('Morris');
 
 INSERT INTO albums_list (name_album, year_of_release)
@@ -47,29 +47,29 @@ VALUES
 
 INSERT INTO track_list (name_track, id_album, track_duration)
 VALUES
-('Rolling In The Deep','10','1:43'),
-('You Light Up My Life','10','2:25'),
-('Lean on','1','3:01'),
-('Sway','1','5:20'),
-('I Gotta Feeling','3','2:35'),
-('Flashdance...What A Feeling','4','3:40'),
-('I Will Always Love You','4','3:25'),
-('My Feelings','5','2:48'),
-('We Belong Together','3','4:20'),
-('Truly Madly Deeply','5','3:53'),
-('Billionaire','7','2:46'),
-('Physical','7','1:57'),
-('Smooth','6','4:55'),
-('My Familiar','6','5:37'),
-('Baila Morena','2','1:11'),
-('My Demons','2','2:29'),
-('Cheap thrills','8','3:00'),
-('Eye Of my Tiger','8','1:44'),
-('Listen to my heart','9','3:42'),
-('Bette Davis Eyes','9','1:32');
+('Rolling In The Deep','10','103'),
+('You Light Up My Life','10','145'),
+('Lean on','1','181'),
+('Sway','1','320'),
+('I Gotta Feeling','3','155'),
+('Flashdance...What A Feeling','4','320'),
+('I Will Always Love You','4','205'),
+('My Feelings','5','168'),
+('We Belong Together','3','260'),
+('Truly Madly Deeply','5','333'),
+('Billionaire','7','166'),
+('Physical','7','117'),
+('Smooth','6','295'),
+('My Familiar','6','337'),
+('Baila Morena','2','71'),
+('My Demons','2','149'),
+('Cheap thrills','8','180'),
+('Eye Of my Tiger','8','104'),
+('Listen to my heart','9','222'),
+('Bette Davis Eyes','9','92');
 
 INSERT INTO track_list (name_track, id_album, track_duration)
-VALUES ('Running', '9', '00:03:30');
+VALUES ('Running', '9', '210');
 
 INSERT INTO collection (name_collection, year_of_release)
 VALUES

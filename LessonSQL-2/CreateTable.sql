@@ -36,11 +36,11 @@ CONSTRAINT pk_tracks_collection PRIMARY KEY (id_track, id_collection)
 CREATE TABLE genres_performers (
 id_genres INTEGER REFERENCES list_of_musical_genres(id),
 id_performer INTEGER REFERENCES list_of_performers(id),
-CONSTRAINT genres_singer_pkey PRIMARY KEY (id_genres, id_performer) -- связь между жанрами и исполнителями
+CONSTRAINT genres_performers_pkey PRIMARY KEY (id_genres, id_performer) -- связь между жанрами и исполнителями
 );
 
 CREATE TABLE album_perfomers (
 id_performer INTEGER REFERENCES list_of_performers(id),
 id_album INTEGER REFERENCES albums_list(id),
-CONSTRAINT pk_singer_album PRIMARY KEY (id_performer, id_album) -- связь между исполнителями и альбомами
+CONSTRAINT pk_album_perfomers PRIMARY KEY (id_performer, id_album) -- связь между исполнителями и альбомами
 );

@@ -43,14 +43,15 @@ public:
 	void CreateTables()
 	{
 		pqxx::work tx{ *b };
+		tx.exec("CREATE TABLE client( id SERIAL PRIMARY KEY, name text NULL, surname text NULL, email text NULL);");
 		tx.exec("CREATE TABLE phones( id SERIAL PRIMARY KEY, number1 text NULL, number2 text NULL, number3 text NULL, client_id int NOT NULL, CONSTRAINT client_fk FOREIGN KEY(client_id) REFERENCES client(id) ON DELETE CASCADE);");
 		
 		tx.exec("INSERT INTO public.client(id, name, surname, email) VALUES(1, 'Mikhail', 'Ivanov', 'mikivan@gmail.com'); ");
 		tx.exec("INSERT INTO public.client(id, name, surname, email) VALUES(2, 'Petr', 'Panin', 'ppan@mail.ru'); ");
 		tx.exec("INSERT INTO public.client(id, name, surname, email) VALUES(3, 'Ivan', 'Petrov', 'ivpet@mail.ru'); ");
-		tx.exec("INSERT INTO public.phones(id, number1, number2, client_id) VALUES(1, '+79872548978', '88482795845' 1); ");
+		tx.exec("INSERT INTO public.phones(id, number1, number2, client_id) VALUES(1, '+79872548978', '88482795845', 1); ");
 		tx.exec("INSERT INTO public.phones(id, number1, client_id) VALUES(2, '+79872548978', 2); ");
-		tx.exec("INSERT INTO public.phones(id, number1, number2, number3, client_id) VALUES(3, '+79872548978', '88482795845', '+79658217521' 3); ");
+		tx.exec("INSERT INTO public.phones(id, number1, number2, number3, client_id) VALUES(3, '+79872548978', '88482795845', '+79658217521', 3); ");
 		tx.commit();
 	}
 

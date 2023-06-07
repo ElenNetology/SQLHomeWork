@@ -52,6 +52,25 @@ public:
 		tx.exec("INSERT INTO public.phones(id, number1, number2, client_id) VALUES(1, '+79872548978', '88482795845', 1); ");
 		tx.exec("INSERT INTO public.phones(id, number1, client_id) VALUES(2, '+79872548978', 2); ");
 		tx.exec("INSERT INTO public.phones(id, number1, number2, number3, client_id) VALUES(3, '+79872548978', '88482795845', '+79658217521', 3); ");
+
+		tx.commit();
+	}
+	void ChangeTables()
+	{
+		pqxx::work tx{ *b };
+		tx.exec("INSERT INTO public.client(id, name, surname, email) VALUES(4, 'Alex', 'Daff', '1234@gmail.com'); "); //добавление нового клиента
+		
+		tx.exec("INSERT INTO public.phones(id, number2, client_id) VALUES(2, '8275964', 2); ");//добавление номера телефона для существующего клиента
+
+		tx.exec("UPDATE client SET surname = 'Petrov' where surname = 'Panin'"); //изменение данных о клиенте
+
+		tx.exec("UPDATE phones SET number3 = null where number3 = '+79658217521'"); // удаление телефона для существующего клиента
+
+		tx.exec("DELETE from phones where id = 2"); //удалить существующего клиента
+
+		tx.exec("SELECT name = 'Ivan' from client");
+
+
 		tx.commit();
 	}
 
@@ -75,7 +94,7 @@ int main()
 		database.SetConnection(std::move(b));
 
 		database.CreateTables();
-
+		database.ChangeTables();
 
 		auto names = database.getAllClient();
 

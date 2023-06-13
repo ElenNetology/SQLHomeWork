@@ -55,21 +55,42 @@ public:
 
 		tx.commit();
 	}
+	void AddClient(std::string name, std::string surname, std::string email)//добавление нового клиента
+	{
+		std::string newname, newsurname, newemail;
+		std::cout << "Введите имя, фамилию и email: " << std::endl;
+		std::cin >> newname >> newsurname >> newemail;
+		
+		pqxx::work tx{ *b };
+		tx.exec("INSERT INTO public.client(id, name, surname, email) VALUES(4, '" + tx.esc(newname) + "', '" + tx.esc(newsurname) + "', '" + tx.esc(newemail) + "'); ");
+		tx.commit();
+	}
+	void AddNumb(std::string number1, std::string number2, std::string number3) // добавление номера телефона для существующего клиента
+	{
+			
+		pqxx::work tx{ *b };
+		tx.exec("INSERT INTO public.phones(id, number2, client_id) VALUES(2, '" + tx.esc(number2) + "', 2); ");
+		tx.commit();
+	}
+	void ChangeClient(std::string surname) //изменение данных о клиенте
+	{
+			
+		pqxx::work tx{ *b };
+		tx.exec("UPDATE client SET surname = 'Petrov' where surname = '" + tx.esc(surname) + "'");
+		tx.commit();
+	}
+
+
+
 	void ChangeTables()
 	{
 		pqxx::work tx{ *b };
-		tx.exec("INSERT INTO public.client(id, name, surname, email) VALUES(4, 'Alex', 'Daff', '1234@gmail.com'); "); //добавление нового клиента
 		
-		tx.exec("INSERT INTO public.phones(id, number2, client_id) VALUES(2, '8275964', 2); ");//добавление номера телефона для существующего клиента
-
-		tx.exec("UPDATE client SET surname = 'Petrov' where surname = 'Panin'"); //изменение данных о клиенте
-
 		tx.exec("UPDATE phones SET number3 = null where number3 = '+79658217521'"); // удаление телефона для существующего клиента
 
 		tx.exec("DELETE from phones where id = 2"); //удалить существующего клиента
 
 		tx.exec("SELECT name = 'Ivan' from client");
-
 
 		tx.commit();
 	}
@@ -84,6 +105,7 @@ int main()
 {
 	SetConsoleCP(CP_UTF8);
 	SetConsoleOutputCP(CP_UTF8);
+	std::string name, surname, email, number1, number2, number3;
 
 	try {
 
@@ -94,7 +116,11 @@ int main()
 		database.SetConnection(std::move(b));
 
 		database.CreateTables();
+		database.AddClient(name, surname, email);
+		database.AddNumb(number1, number2, number3);
+		database.ChangeClient(surname);
 		database.ChangeTables();
+
 
 		auto names = database.getAllClient();
 

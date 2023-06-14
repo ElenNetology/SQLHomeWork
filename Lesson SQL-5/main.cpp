@@ -67,31 +67,49 @@ public:
 	}
 	void AddNumb(std::string number1, std::string number2, std::string number3) // добавление номера телефона дл€ существующего клиента
 	{
-			
+		int client_id;
+		std::cout << "¬ведите id клиента дл€ добавлени€ номера телефона: " << std::endl;
+		std::cin >> client_id;
 		pqxx::work tx{ *b };
-		tx.exec("INSERT INTO public.phones(id, number2, client_id) VALUES(2, '" + tx.esc(number2) + "', 2); ");
+		tx.exec("INSERT INTO public.phones(id, number2, client_id) VALUES(2, '" + tx.esc(number2) + "', '" + tx.esc(client_id) + "'); ");
 		tx.commit();
 	}
 	void ChangeClient(std::string surname) //изменение данных о клиенте
 	{
-			
+		std::string newsurname;
+		std::cout << "¬ведите новую фамилию: " << std::endl;
+		std::cin >> newsurname;
 		pqxx::work tx{ *b };
-		tx.exec("UPDATE client SET surname = 'Petrov' where surname = '" + tx.esc(surname) + "'");
+		tx.exec("UPDATE client SET surname = 'Petrov' where surname = '" + tx.esc(newsurname) + "'");
+		tx.commit();
+	}
+	void DelNum(std::string number1, std::string number2, std::string number3)// удаление телефона дл€ существующего клиента
+	{
+				
+		pqxx::work tx{ *b };
+		tx.exec("UPDATE phones SET number3 = null where number3 = '+79658217521'"); 
 		tx.commit();
 	}
 
-
-
-	void ChangeTables()
+	void SelectCl(std::string name)
 	{
-		pqxx::work tx{ *b };
+		std::cout << "¬ведите им€ клиента дл€ поиска: " << std::endl;
+		std::cin >> name;
 		
-		tx.exec("UPDATE phones SET number3 = null where number3 = '+79658217521'"); // удаление телефона дл€ существующего клиента
+		pqxx::work tx{ *b };
+		tx.exec("SELECT name = '" + tx.esc(name) + "' from client");
 
-		tx.exec("DELETE from phones where id = 2"); //удалить существующего клиента
-
-		tx.exec("SELECT name = 'Ivan' from client");
-
+		tx.commit();
+	}
+		
+	void DeleteTables(std::string surname)
+	{
+		std::cout << "¬ведите фамилию клиента дл€ удалени€ из базы: " << std::endl;
+		std::cin >> surname;
+				
+		pqxx::work tx{ *b };
+		tx.exec("DELETE from client where surname = '" + tx.esc(surname) + "' "); //удалить существующего клиента
+		
 		tx.commit();
 	}
 
@@ -119,8 +137,10 @@ int main()
 		database.AddClient(name, surname, email);
 		database.AddNumb(number1, number2, number3);
 		database.ChangeClient(surname);
-		database.ChangeTables();
-
+		database.DelNum(number1, number2, number3);
+		database.SelectCl(name);
+		database.DeleteTables(surname);
+		
 
 		auto names = database.getAllClient();
 

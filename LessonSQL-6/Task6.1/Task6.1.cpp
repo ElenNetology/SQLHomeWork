@@ -106,10 +106,62 @@ int main()
 
         auto postgres = std::make_unique<Wt::Dbo::backend::Postgres>(connectionString);
 
-       
-       
+        Wt::Dbo::Session session;
+        session.setConnection(std::move(postgres));
+        session.mapClass<Book>("book");
+        session.mapClass<Publisher>("publisher");
+        session.mapClass<Shop>("shop");
+        session.mapClass<Stock>("stock");
+        session.mapClass<Sale>("sale");
+
+        try
+        {
+            session.createTables();
+
+
+            Wt::Dbo::Transaction transaction{ session };
+
+            std::unique_ptr<Publisher> p1 = std::make_unique<Publisher>();
+            p1->name = "Alpina.Proza";
+
+            std::unique_ptr<Book> b1 = std::make_unique<Book>();
+            b1->title = "Atlas Shrugged";
+
+            std::unique_ptr<Shop> s1 = std::make_unique<Shop>();
+            s1->name = "Metida";
+
+            std::unique_ptr<Stock> st1 = std::make_unique<Stock>();
+            st1->count = 90;
+
+            std::unique_ptr<Sale> sl1 = std::make_unique<Sale>();
+            sl1->count = 20;
+            sl1->date = "2023-06-20";
+
+            auto publisher_added = session.add(std::move(p1));
+            auto book_added = session.add(std::move(b1));
+            auto shop_added = session.add(std::move(s1));
+            auto stock_added = session.add(std::move(st1));
+            auto sale_added = session.add(std::move(sl1));
+
+            book_added.modify()->publisher = publisher_added;
+
+            stock_added.modify()->book = book_added;
+
+            shop_added.modify()->stocks.insert(stock_added);
+
+            sale_added.modify()->stock = stock_added;
+
+            transaction.commit();
+
+
+        }
+        catch (const Wt::Dbo::Exception& e)
+        {
+            std::cout << "Failed to create tables: " << e.what() << std::endl;
+        }
 
     }
+
     catch (const Wt::Dbo::Exception& e)
     {
         std::cout << e.what() << std::endl;

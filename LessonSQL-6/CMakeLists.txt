@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.20)
+project(SQL-6)
+set (PostgreSQL_ADDITIONAL_VERSIONS "15")
+add_executable(SQL-6 Task6.1.cpp)
+add_subdirectory("C:/Users/123/Desktop/CPP - SQL/LessonSQL-6/Wt 4.10.0 msvs2022 x64" include)
+target_compile_features(SQL-6 PRIVATE cxx_std_17) 
+target_link_libraries(SQL-6 wtdbo) 

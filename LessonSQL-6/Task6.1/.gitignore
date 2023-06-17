@@ -98,13 +98,6 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
-# Files CMake
-*.sln
-*.vcxproj.filters
-*.vcxproj.user
-*.vcxproj
-
-
 # Chutzpah Test files
 _Chutzpah*
 
@@ -403,4 +396,3 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-libpqxx-7.7.5/

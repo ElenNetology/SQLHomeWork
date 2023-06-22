@@ -44,7 +44,7 @@ public:
 	{
 		pqxx::work tx{ *b };
 		tx.exec("CREATE TABLE client( id SERIAL PRIMARY KEY, name text NULL, surname text NULL, email text NULL);");
-		tx.exec("CREATE TABLE phones( id SERIAL PRIMARY KEY, number1 text NULL, number2 text NULL, number3 text NULL, client_id int NOT NULL, CONSTRAINT client_fk FOREIGN KEY(client_id) REFERENCES client(id) ON DELETE CASCADE);");
+		tx.exec("CREATE TABLE phones( id SERIAL PRIMARY KEY, number1 text NULL, number2 text NULL, number3 text NULL, client_id text NOT NULL, CONSTRAINT client_fk FOREIGN KEY(client_id) REFERENCES client(id) ON DELETE CASCADE);");
 		
 		tx.exec("INSERT INTO public.client(id, name, surname, email) VALUES(1, 'Mikhail', 'Ivanov', 'mikivan@gmail.com'); ");
 		tx.exec("INSERT INTO public.client(id, name, surname, email) VALUES(2, 'Petr', 'Panin', 'ppan@mail.ru'); ");
@@ -67,9 +67,7 @@ public:
 	}
 	void AddNumb(std::string number1, std::string number2, std::string number3) // добавление номера телефона дл€ существующего клиента
 	{
-		int client_id;
-		std::cout << "¬ведите id клиента дл€ добавлени€ номера телефона: " << std::endl;
-		std::cin >> client_id;
+		std::string client_id;
 		pqxx::work tx{ *b };
 		tx.exec("INSERT INTO public.phones(id, number2, client_id) VALUES(2, '" + tx.esc(number2) + "', '" + tx.esc(client_id) + "'); ");
 		tx.commit();
@@ -77,10 +75,8 @@ public:
 	void ChangeClient(std::string surname) //изменение данных о клиенте
 	{
 		std::string newsurname;
-		std::cout << "¬ведите новую фамилию: " << std::endl;
-		std::cin >> newsurname;
 		pqxx::work tx{ *b };
-		tx.exec("UPDATE client SET surname = 'Petrov' where surname = '" + tx.esc(newsurname) + "'");
+		tx.exec("UPDATE client SET surname = '" + tx.esc(newsurname) + "' where surname = 'Petrov'");
 		tx.commit();
 	}
 	void DelNum(std::string number1, std::string number2, std::string number3)// удаление телефона дл€ существующего клиента
@@ -130,12 +126,19 @@ int main()
 		DatabaseStorage database;
 
 		std::unique_ptr<pqxx::connection> b = std::make_unique<pqxx::connection>(CONST_CONNECTION_STRING);
-
+		std::string newsurname;
+		std::string client_id;
 		database.SetConnection(std::move(b));
 
 		database.CreateTables();
 		database.AddClient(name, surname, email);
+		
+		std::cout << "¬ведите id клиента дл€ добавлени€ номера телефона: " << std::endl;
+		std::cin >> client_id;
 		database.AddNumb(number1, number2, number3);
+		
+		std::cout << "¬ведите новую фамилию: " << std::endl;
+		std::cin >> newsurname;
 		database.ChangeClient(surname);
 		database.DelNum(number1, number2, number3);
 		database.SelectCl(name);

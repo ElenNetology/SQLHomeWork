@@ -159,7 +159,41 @@ int main()
         {
             std::cout << "Failed to create tables: " << e.what() << std::endl;
         }
+        std::cout << "Enter publisher: ";
+        std::string publisherName;
 
+        std::cin >> publisherName;
+
+        Wt::Dbo::Transaction t1{ session };
+
+        Wt::Dbo::ptr<Publisher> publisher = session.find<Publisher>().where("name = ?").bind(publisherName).limit(1);
+
+        if (publisher)
+        {
+            std::cout << "Publisher found: " << publisher->name << std::endl;
+
+            Wt::Dbo::collection<Wt::Dbo::ptr<Book>> books = publisher->books;
+
+            std::vector<Wt::Dbo::ptr<Stock>> stocks;
+            for (auto book : books)
+            {
+
+                std::for_each(book->stocks.begin(), book->stocks.end(), [&stocks](Wt::Dbo::ptr<Stock> s) {
+                    stocks.push_back(s);
+                    });
+            }
+
+            for (auto stock : stocks)
+            {
+                std::cout << "Stock found: " << stock->book->title << " in shop: " << stock->shop->name << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Publisher not found" << std::endl;
+        }
+
+        t1.commit();
     }
 
     catch (const Wt::Dbo::Exception& e)

@@ -72,12 +72,17 @@ public:
 		tx.exec("INSERT INTO public.phones(id, number2, client_id) VALUES(2, '" + tx.esc(number2) + "', '" + tx.esc(client_id) + "'); ");
 		tx.commit();
 	}
-	void ChangeClient(std::string surname) //изменение данных о клиенте
+	void ChangeClient(std::string surname, std::string newsurname, std::string client_id) //изменение данных о клиенте
 	{
-		std::string newsurname;
+		//std::string newsurname;
+		//std::string client_id;
+		std::cout << "¬ведите новую фамилию: " << std::endl;
+		std::cin >> newsurname;
 		pqxx::work tx{ *b };
-		tx.exec("UPDATE client SET surname = '" + tx.esc(newsurname) + "' where surname = 'Petrov'");
+		tx.exec("UPDATE SET surname = '" + tx.esc(newsurname) + "' WHERE id = '" + tx.esc(client_id) + "'");
+		//tx.exec("UPDATE client SET surname = '" + tx.esc(newsurname) + "' where surname = 'Petrov'");
 		tx.commit();
+
 	}
 	void DelNum(std::string number1, std::string number2, std::string number3)// удаление телефона дл€ существующего клиента
 	{
@@ -137,9 +142,7 @@ int main()
 		std::cin >> client_id;
 		database.AddNumb(number1, number2, number3);
 		
-		std::cout << "¬ведите новую фамилию: " << std::endl;
-		std::cin >> newsurname;
-		database.ChangeClient(surname);
+		database.ChangeClient(surname, newsurname, client_id);
 		database.DelNum(number1, number2, number3);
 		database.SelectCl(name);
 		database.DeleteTables(surname);
